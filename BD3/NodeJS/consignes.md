@@ -7,7 +7,18 @@ Développez un module ES6 permettant de calculer la somme des éléments d'un ta
 - Retourne la somme totale ou 0 si le tableau est vide.
 2. La fonction sera testée à l'aide d'un second fichier utilisant iport pour vérifier son bon fonctionnement.
 ## Exercice 2 - création d'un projet ES6
-1. Initialisez le projet NPM avec :
+Initialisez le projet NPM avec :  
 ```sh
 npm init
 ```
+Démarrez le serveur avec :  
+```sh
+node index.js
+```
+  
+Lecture et affichage d'un fichier HTML via un serveur NodeJS.  
+Créer un serveur HTTP en NodeJS qui lit et renvoie le contenu d'un fichier HTML index.html lorsqu'un client en fait la requête.  
+1. Utiliser le module http pour créer un serveur.
+2. Lire le fichier index.html à l'aide du module fs.
+3. Utiliser fs.readFileSync pour lire le fichier.
+4. Lancer le serveur sur le port 4000 et afficher un message dans la console indiquant l'IRL d'accès.
