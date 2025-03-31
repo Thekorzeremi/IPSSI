@@ -22,3 +22,16 @@ Créer un serveur HTTP en NodeJS qui lit et renvoie le contenu d'un fichier HTML
 2. Lire le fichier index.html à l'aide du module fs.
 3. Utiliser fs.readFileSync pour lire le fichier.
 4. Lancer le serveur sur le port 4000 et afficher un message dans la console indiquant l'IRL d'accès.
+## Exercice 3 - Nodemon
+Pour actualiser le serveur lors d'une modification, il est nécessaire d'utiliser **nodemon**.  
+Installez nodemon avec :
+```sh
+npm install nodemon
+```
+Et rajoutez dans package.json le lancement du projet avec nodemon :
+```json
+"scripts": {
+"test": "echo \"Error: no test specified\" && exit 1",
+"start": "nodemon index.js"
+},
+```
