@@ -19,7 +19,6 @@
         <h1>Gestion des Véhicules</h1>
         <a href="/"><button style="margin-bottom: 20px;">Retour aux agences</button></a>
 
-        <!-- Formulaire d'ajout de véhicule -->
         <h2>Ajouter un nouveau véhicule</h2>
         <form action="/vehicle/add" method="POST">
             <input type="hidden" name="agency_id" value="<%= agencyId %>">
@@ -54,7 +53,6 @@
             <button type="submit">Ajouter le véhicule</button>
         </form>
 
-        <!-- Liste des véhicules -->
         <h2>Liste des véhicules</h2>
         <table>
             <thead>
@@ -87,7 +85,6 @@
         </table>
     </div>
 
-    <!-- Modal d'édition -->
     <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
         <div style="background: white; padding: 20px; max-width: 500px; margin: 50px auto;">
             <h2>Modifier le véhicule</h2>

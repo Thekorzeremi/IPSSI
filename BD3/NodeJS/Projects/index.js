@@ -3,29 +3,24 @@ const mysql = require('mysql2');
 const app = express();
 const port = 4000;
 
-// MySQL Connection
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password'
 });
 
-// Connect to MySQL and create database
 connection.connect(error => {
     if (error) throw error;
     console.log('Successfully connected to MySQL.');
     
-    // Create database if it doesn't exist
     connection.query('CREATE DATABASE IF NOT EXISTS vehicle_agency', (err) => {
         if (err) throw err;
         console.log('Database created or already exists');
         
-        // Use the database
         connection.query('USE vehicle_agency', (err) => {
             if (err) throw err;
             console.log('Using vehicle_agency database');
             
-            // Create agencies table
             const createAgenciesTable = `
                 CREATE TABLE IF NOT EXISTS agencies (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,7 +35,6 @@ connection.connect(error => {
                 if (err) throw err;
                 console.log('Agencies table created or already exists');
                 
-                // Drop and recreate vehicles table
                 connection.query('DROP TABLE IF EXISTS vehicles', (dropErr) => {
                     if (dropErr) throw dropErr;
                     console.log('Vehicles table dropped');
@@ -69,12 +63,10 @@ connection.connect(error => {
     });
 });
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
 
-// Routes for Agencies
 app.get('/', (req, res) => {
     connection.query('SELECT * FROM agencies', (error, agencies) => {
         if (error) throw error;
@@ -107,7 +99,6 @@ app.get('/agency/delete/:id', (req, res) => {
     });
 });
 
-// Routes for Vehicles
 app.get('/vehicles/:agencyId', (req, res) => {
     connection.query('SELECT * FROM vehicles WHERE agency_id = ?', [req.params.agencyId], (error, vehicles) => {
         if (error) throw error;
