@@ -49,7 +49,7 @@ connection.connect(error => {
                         model VARCHAR(50) NOT NULL,
                         plate VARCHAR(20) NOT NULL,
                         year INT NOT NULL,
-                        status ENUM('available', 'rented', 'maintenance') DEFAULT 'available',
+                        status ENUM('disponible', 'loué', 'en réparation') DEFAULT 'disponible',
                         price_per_day DECIMAL(10,2) NOT NULL,
                         FOREIGN KEY (agency_id) REFERENCES agencies(id) ON DELETE CASCADE
                     )
