@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion des Véhicules</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .actions { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion des Véhicules</h1>
+        <a href="/"><button style="margin-bottom: 20px;">Retour aux agences</button></a>
+
+        <!-- Formulaire d'ajout de véhicule -->
+        <h2>Ajouter un nouveau véhicule</h2>
+        <form action="/vehicle/add" method="POST">
+            <input type="hidden" name="agency_id" value="<%= agencyId %>">
+            <div class="form-group">
+                <label>Marque:</label>
+                <input type="text" name="brand" required>
+            </div>
+            <div class="form-group">
+                <label>Modèle:</label>
+                <input type="text" name="model" required>
+            </div>
+            <div class="form-group">
+                <label>Immatriculation:</label>
+                <input type="text" name="plate" required>
+            </div>
+            <div class="form-group">
+                <label>Année:</label>
+                <input type="number" name="year" required min="1900" max="2025">
+            </div>
+            <div class="form-group">
+                <label>Statut:</label>
+                <select name="status" required>
+                    <option value="available">Disponible</option>
+                    <option value="rented">Loué</option>
+                    <option value="maintenance">En réparation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Prix par jour:</label>
+                <input type="number" name="price_per_day" required step="0.01">
+            </div>
+            <button type="submit">Ajouter le véhicule</button>
+        </form>
+
+        <!-- Liste des véhicules -->
+        <h2>Liste des véhicules</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Marque</th>
+                    <th>Modèle</th>
+                    <th>Immatriculation</th>
+                    <th>Année</th>
+                    <th>Statut</th>
+                    <th>Prix/jour</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% vehicles.forEach(function(vehicle) { %>
+                    <tr>
+                        <td><%= vehicle.brand %></td>
+                        <td><%= vehicle.model %></td>
+                        <td><%= vehicle.plate %></td>
+                        <td><%= vehicle.year %></td>
+                        <td><%= vehicle.status %></td>
+                        <td><%= vehicle.price_per_day %>€</td>
+                        <td class="actions">
+                            <button onclick="showEditForm(<%= JSON.stringify(vehicle) %>)">Modifier</button>
+                            <a href="/vehicle/delete/<%= vehicle.id %>/<%= agencyId %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule?')">Supprimer</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal d'édition -->
+    <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+        <div style="background: white; padding: 20px; max-width: 500px; margin: 50px auto;">
+            <h2>Modifier le véhicule</h2>
+            <form id="editForm" action="/vehicle/update/" method="POST">
+                <input type="hidden" name="agency_id" value="<%= agencyId %>">
+                <div class="form-group">
+                    <label>Marque:</label>
+                    <input type="text" name="brand" id="editBrand" required>
+                </div>
+                <div class="form-group">
+                    <label>Modèle:</label>
+                    <input type="text" name="model" id="editModel" required>
+                </div>
+                <div class="form-group">
+                    <label>Immatriculation:</label>
+                    <input type="text" name="plate" id="editPlate" required>
+                </div>
+                <div class="form-group">
+                    <label>Année:</label>
+                    <input type="number" name="year" id="editYear" required min="1900" max="2025">
+                </div>
+                <div class="form-group">
+                    <label>Statut:</label>
+                    <select name="status" id="editStatus" required>
+                        <option value="available">Disponible</option>
+                        <option value="rented">Loué</option>
+                        <option value="maintenance">En réparation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Prix par jour:</label>
+                    <input type="number" name="price_per_day" id="editPrice" required step="0.01">
+                </div>
+                <button type="submit">Sauvegarder</button>
+                <button type="button" onclick="hideEditForm()" style="background-color: #f44336;">Annuler</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showEditForm(vehicle) {
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('editForm').action = '/vehicle/update/' + vehicle.id;
+            document.getElementById('editBrand').value = vehicle.brand;
+            document.getElementById('editModel').value = vehicle.model;
+            document.getElementById('editPlate').value = vehicle.plate;
+            document.getElementById('editYear').value = vehicle.year;
+            document.getElementById('editStatus').value = vehicle.status;
+            document.getElementById('editPrice').value = vehicle.price_per_day;
+        }
+
+        function hideEditForm() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

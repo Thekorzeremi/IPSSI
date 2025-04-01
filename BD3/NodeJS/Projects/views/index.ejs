@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion des Agences de Véhicules</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .actions { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion des Agences de Véhicules</h1>
+        
+        <!-- Formulaire d'ajout d'agence -->
+        <h2>Ajouter une nouvelle agence</h2>
+        <form action="/agency/add" method="POST">
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>Adresse:</label>
+                <textarea name="address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Téléphone:</label>
+                <input type="tel" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            <button type="submit">Ajouter l'agence</button>
+        </form>
+
+        <!-- Liste des agences -->
+        <h2>Liste des agences</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% agencies.forEach(function(agency) { %>
+                    <tr>
+                        <td><%= agency.name %></td>
+                        <td><%= agency.address %></td>
+                        <td><%= agency.phone %></td>
+                        <td><%= agency.email %></td>
+                        <td class="actions">
+                            <a href="/vehicles/<%= agency.id %>">
+                                <button>Voir les véhicules</button>
+                            </a>
+                            <form action="/agency/update/<%= agency.id %>" method="POST" style="display: inline;">
+                                <button type="button" onclick="showEditForm(<%= JSON.stringify(agency) %>)">Modifier</button>
+                            </form>
+                            <a href="/agency/delete/<%= agency.id %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette agence ?')">
+                                <button style="background-color: #f44336;">Supprimer</button>
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal d'édition (apparaît lors du clic sur Modifier) -->
+    <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+        <div style="background: white; padding: 20px; max-width: 500px; margin: 50px auto;">
+            <h2>Modifier l'agence</h2>
+            <form id="editForm" action="/agency/update/" method="POST">
+                <div class="form-group">
+                    <label>Nom:</label>
+                    <input type="text" name="name" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Adresse:</label>
+                    <textarea name="address" id="editAddress" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Téléphone:</label>
+                    <input type="tel" name="phone" id="editPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" id="editEmail" required>
+                </div>
+                <button type="submit">Sauvegarder</button>
+                <button type="button" onclick="hideEditForm()" style="background-color: #f44336;">Annuler</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showEditForm(agency) {
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('editForm').action = '/agency/update/' + agency.id;
+            document.getElementById('editName').value = agency.name;
+            document.getElementById('editAddress').value = agency.address;
+            document.getElementById('editPhone').value = agency.phone;
+            document.getElementById('editEmail').value = agency.email;
+        }
+
+        function hideEditForm() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
