@@ -35,3 +35,8 @@ Et rajoutez dans package.json le lancement du projet avec nodemon :
 "start": "nodemon index.js"
 },
 ```
+### Exercice 4 - Gestion CRUD
+Installez :
+```sh
+npm install
+```
