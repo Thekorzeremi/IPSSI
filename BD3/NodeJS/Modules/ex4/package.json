@@ -1,0 +1,13 @@
+{
+  "name": "gestion-produits",
+  "version": "1.0.0",
+  "description": "Programme de gestion de produits",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10",
+    "nodemon": "^3.1.9"
+  }
+}
