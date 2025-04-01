@@ -40,24 +40,29 @@ connection.connect(error => {
                 if (err) throw err;
                 console.log('Agencies table created or already exists');
                 
-                // Create vehicles table
-                const createVehiclesTable = `
-                    CREATE TABLE IF NOT EXISTS vehicles (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        agency_id INT,
-                        brand VARCHAR(50) NOT NULL,
-                        model VARCHAR(50) NOT NULL,
-                        plate VARCHAR(20) NOT NULL,
-                        year INT NOT NULL,
-                        status ENUM('disponible', 'loué', 'en réparation') DEFAULT 'disponible',
-                        price_per_day DECIMAL(10,2) NOT NULL,
-                        FOREIGN KEY (agency_id) REFERENCES agencies(id) ON DELETE CASCADE
-                    )
-                `;
+                // Drop and recreate vehicles table
+                connection.query('DROP TABLE IF EXISTS vehicles', (dropErr) => {
+                    if (dropErr) throw dropErr;
+                    console.log('Vehicles table dropped');
+
+                    const createVehiclesTable = `
+                        CREATE TABLE vehicles (
+                            id INT AUTO_INCREMENT PRIMARY KEY,
+                            agency_id INT,
+                            brand VARCHAR(50) NOT NULL,
+                            model VARCHAR(50) NOT NULL,
+                            plate VARCHAR(20) NOT NULL,
+                            year INT NOT NULL,
+                            status ENUM('disponible', 'loue', 'reparation') DEFAULT 'disponible',
+                            price_per_day DECIMAL(10,2) NOT NULL,
+                            FOREIGN KEY (agency_id) REFERENCES agencies(id) ON DELETE CASCADE
+                        )
+                    `;
                 
-                connection.query(createVehiclesTable, (err) => {
-                    if (err) throw err;
-                    console.log('Vehicles table created or already exists');
+                    connection.query(createVehiclesTable, (err) => {
+                        if (err) throw err;
+                        console.log('Vehicles table created successfully');
+                    });
                 });
             });
         });
