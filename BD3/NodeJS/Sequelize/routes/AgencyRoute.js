@@ -7,11 +7,11 @@ import {
     createAgency
 } from '../controller/AgencyController.js';
 
-const route = Router();
+const AgencyRoute = Router();
 
-route.get('/agency', getAgency);
-route.get('/agency/:id', getAgencyById);
-route.delete('/agency/:id', deleteAgency);
-route.post('/agency', createAgency);
+AgencyRoute.get('/agency', getAgency);
+AgencyRoute.get('/agency/:id', getAgencyById);
+AgencyRoute.delete('/agency/:id', deleteAgency);
+AgencyRoute.post('/agency', createAgency);
 
-export default route;
+export default AgencyRoute;

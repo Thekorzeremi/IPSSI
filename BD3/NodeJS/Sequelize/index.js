@@ -1,5 +1,6 @@
 import express from "express";
-import route from "./routes/VehiculeRoute.js";
+import VehiculeRoute from "./routes/VehiculeRoute.js";
+import AgencyRoute from "./routes/AgencyRoute.js";
 import sequelize from "./db.js";
 
 sequelize.sync()
@@ -19,4 +20,4 @@ sequelize.sync()
 const app = express();
 app.use(express.json());
 
-app.use(route);
+app.use(VehiculeRoute, AgencyRoute);

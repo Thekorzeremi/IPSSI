@@ -8,12 +8,12 @@ import {
     getVehiclesByBrand
 } from '../controller/VehiculeController.js';
 
-const route = Router();
+const VehiculeRoute = Router();
 
-route.get('/vehicle', getVehicles);
-route.get('/vehicle/:id', getVehiclesById);
-route.delete('/vehicle/:id', deleteVehicle);
-route.post('/vehicle', createVehicle);
-route.get('/vehicle/search/:libelle', getVehiclesByBrand);
+VehiculeRoute.get('/vehicle', getVehicles);
+VehiculeRoute.get('/vehicle/:id', getVehiclesById);
+VehiculeRoute.delete('/vehicle/:id', deleteVehicle);
+VehiculeRoute.post('/vehicle', createVehicle);
+VehiculeRoute.get('/vehicle/search/:libelle', getVehiclesByBrand);
 
-export default route;
+export default VehiculeRoute;
