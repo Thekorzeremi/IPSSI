@@ -15,8 +15,8 @@ export const getAgencyById = async (req, res) => {
 };
 
 export const deleteAgency = async (req, res) => {
-    const agencies = await agencies.drop(req.params.id);
-    agencies ?
+    const result = await Agency.destroy({ where: { id: req.params.id } });
+    result ?
         res.status(200).json(agencies) :
         res.status(404).json({ message: "Agency not found" });
 };
