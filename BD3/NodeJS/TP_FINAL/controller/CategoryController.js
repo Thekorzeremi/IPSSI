@@ -1,5 +1,6 @@
 import Category from "../model/Category.js";
 import sequelize from "../db.js";
+import QueryTypes from "sequelize/lib/query-types";
 
 export const getCategories = async (req, res) => {
     const categories = await Category.findAll();
@@ -61,7 +62,8 @@ export const showCategoryTotalNumberOfProduct = async (req, res) => {
             `SELECT c.id AS categoryId, c.name AS categoryName, COUNT(p.id) AS productCount
              FROM Categories c
              LEFT JOIN Products p ON p.categoryId = c.id
-             GROUP BY c.id, c.name`
+             GROUP BY c.id, c.name`,
+             {type: QueryTypes.SELECT}
         );
         res.status(200).json(results);
     } catch (error) {
@@ -77,7 +79,8 @@ export const showCategoriesWithFiveProductsOrMore = async (req, res) => {
              FROM Categories c
              LEFT JOIN Products p ON p.categoryId = c.id
              GROUP BY c.id, c.name
-             HAVING COUNT(p.id) >= 5`
+             HAVING COUNT(p.id) >= 5`,
+             {type: QueryTypes.SELECT}
         );
         res.status(200).json(results);
     } catch (error) {
@@ -92,7 +95,8 @@ export const calculateAveragePriceByCategory = async (req, res) => {
             `SELECT c.id AS categoryId, c.name AS categoryName, AVG(p.price) AS averagePrice
              FROM Categories c
              LEFT JOIN Products p ON p.categoryId = c.id
-             GROUP BY c.id, c.name`
+             GROUP BY c.id, c.name`,
+             {type: QueryTypes.SELECT}
         );
         res.status(200).json(results);
     } catch (error) {
@@ -108,7 +112,8 @@ export const showCategoriesWithAveragePriceAbove100 = async (req, res) => {
              FROM Categories c
              LEFT JOIN Products p ON p.categoryId = c.id
              GROUP BY c.id, c.name
-             HAVING AVG(p.price) > 100`
+             HAVING AVG(p.price) > 100`,
+             {type: QueryTypes.SELECT}
         );
         res.status(200).json(results);
     } catch (error) {
@@ -122,7 +127,8 @@ export const showOutOfStockProducts = async (req, res) => {
         const [results] = await sequelize.query(
             `SELECT p.id AS productId, p.name AS productName, p.stock
              FROM Products p
-             WHERE p.stock = 0`
+             WHERE p.stock = 0`,
+             {type: QueryTypes.SELECT}
         );
         res.status(200).json(results);
     } catch (error) {
