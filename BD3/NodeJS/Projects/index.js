@@ -131,7 +131,12 @@ app.get('/vehicle/delete/:id/:agencyId', (req, res) => {
     });
 });
 
-
+app.get('/vehicle/counter/', (req, res) => {
+    connection.query('SELECT a.name, COUNT(v.id) AS nb_vehicule, AVG(v.price_per_day) AS moyenne_prix FROM vehicles v JOIN agencies a ON agency_id = a.id GROUP BY a.name', (error, results) => {
+        if (error) throw error;
+        res.render('counter', { results });
+    });
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

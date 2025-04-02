@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste du nombre de voitures par agence</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .actions { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste du nombre de voitures par agences</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom agence</th>
+                    <th>Prix moyen</th>
+                    <th>Nb de véhicules</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% results.forEach(function(result) { %>
+                    if (result.nb_vehicule >= 2) {
+                        <tr>
+                            <td><%= result.name %></td>
+                            <td><%= result.moyenne_prix %></td>
+                            <td><%= result.nb_vehicule %></td>
+                        </tr>
+                    }
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
