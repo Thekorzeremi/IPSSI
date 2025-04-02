@@ -15,7 +15,7 @@ export const getVehiclesById = async (req, res) => {
 };
 
 export const deleteVehicle = async (req, res) => {
-    const vehicule = await Vehicules.findByPk(req.params.id);
+    const vehicule = await Vehicules.drop(req.params.id);
     vehicule ?
         res.status(200).json(vehicule) :
         res.status(404).json({ message: "Vehicle not found" });
