@@ -33,4 +33,4 @@ const Agency = sequelize.define('Agency', {
     }
 })();
 
-export default Vehicules;
+export default Agency;
