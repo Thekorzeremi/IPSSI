@@ -4,6 +4,8 @@ import ProductRoute from './routes/ProductRoute.js';
 import CategoryRoute from './routes/CategoryRoute.js';
 import Category from "./model/Category.js";
 import Product from "./model/Product.js";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 
 const app = express();
 app.use(express.json());
@@ -14,7 +16,6 @@ Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
 sequelize.sync({ force: true }) 
     .then(async () => {
         console.log('Connected to the database');
-
         const category = await Category.create({
             name: "Alimentaire",
             description: "Les aliments consommables du quotidien"
@@ -46,9 +47,8 @@ sequelize.sync({ force: true })
         });
         console.log("Row in Product inserted");
 
-        const port = 4000;
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
+        app.listen(process.env.EXPRESS_PORT, () => {
+            console.log(`Server is running on port ${process.env.EXPRESS_PORT}`);
         });
     })
     .catch((error) => {
